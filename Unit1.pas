@@ -29,7 +29,6 @@ type
     procedure FormActivate(Sender: TObject);
     procedure CameraComponent1SampleBufferReady(Sender: TObject;
       const ATime: TMediaTime);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
   private
     procedure GetImage;
     { Private declarations }
@@ -46,6 +45,7 @@ implementation
 
 var
   Pass: Boolean = false;
+  Click: Boolean = false;
   wndTaskbar: HWND;
   i: integer = 0;
 
@@ -56,20 +56,35 @@ end;
 
 procedure TForm1.Button1Click(Sender: TObject);
 begin
-  if (Edit1.Text = 'vugichugi') then
+  if Click then
   begin
-    Pass := True;
-    EnableWindow(wndTaskbar, True);
-    ShowWindow(wndTaskbar, SW_SHOW);
-    Form1.Close;
+    if (Edit1.Text = 'vugichugi') then
+    begin
+      Pass := True;
+      EnableWindow(wndTaskbar, True);
+      ShowWindow(wndTaskbar, SW_SHOW);
+      CameraComponent1.Active := false;
+      Form1.Close;
+    end
+    else
+    begin
+      i := i + 1;
+      Showmessage('Wrong Password. Please try again');
+      CameraComponent1SampleBufferReady(Sender, MediaTimeScale);
+      Image1.Bitmap.SaveToFile('Image' + inttostr(i) + '.jpg');
+      Edit1.Visible := True;
+      Label3.Visible := True;
+      CameraComponent1.Active := True;
+      Click := True;
+    end;
   end
   else
   begin
-    i := i + 1;
-    CameraComponent1SampleBufferReady(Sender, MediaTimeScale);
-    Image1.Bitmap.SaveToFile('Image' + inttostr(i) + '.bmp');
+    Edit1.Visible := True;
+    Label3.Visible := True;
+    CameraComponent1.Active := True;
+    Click := True;
   end;
-
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -83,7 +98,7 @@ begin
     EnableWindow(wndTaskbar, false);
     ShowWindow(wndTaskbar, SW_HIDE);
   end;
-  CameraComponent1.Active := True;
+
 end;
 
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; var KeyChar: Char;
@@ -109,14 +124,11 @@ end;
 
 procedure TForm1.FormActivate(Sender: TObject);
 begin
+  Edit1.Visible := false;
+  Label3.Visible := false;
   Form1.FormStyle := TFormStyle.StayOnTop;
   WindowState := TWindowstate.wsMaximized;
   Edit1.Password := True;
-end;
-
-procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  CameraComponent1.Active := false;
 end;
 
 procedure TForm1.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
