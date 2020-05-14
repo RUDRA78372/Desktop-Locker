@@ -64,6 +64,7 @@ begin
       EnableWindow(wndTaskbar, True);
       ShowWindow(wndTaskbar, SW_SHOW);
       CameraComponent1.Active := false;
+      Application.ProcessMessages;
       Form1.Close;
     end
     else
