@@ -6,6 +6,6 @@ Tip: 1. I have created this locker for my personal use.
 My PC has a webcam so this locker doesn't have a check for webcam and automatically uses it. 
 If you don't have one, please edit the source for your use.
 
-2. Win Key and Ctrl+Alt+Del still works when locked. 
+2. Ctrl+Alt+Del still works when locked. 
 
 3. Alt+Tab works in Win7 for switching to desktop.
