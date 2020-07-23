@@ -8,4 +8,3 @@ If you don't have one, please edit the source for your use.
 
 2. Ctrl+Alt+Del still works when locked. 
 
-3. Alt+Tab works in Win7 for switching to desktop.
